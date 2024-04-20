@@ -54,6 +54,9 @@
     "vite": "^5.0.12",
     "vitest": "^1.2.1"
   },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix"
+  },
   "author": "",
   "license": "ISC"
 }
