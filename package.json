@@ -55,7 +55,10 @@
     "vitest": "^1.2.1"
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --fix"
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc --write -u"
+    ]
   },
   "author": "",
   "license": "ISC"
