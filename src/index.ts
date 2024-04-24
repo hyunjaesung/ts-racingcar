@@ -1,14 +1,22 @@
 import { RaceGame } from "@/RaceGame";
+import { getRandomNumber } from "@/utils";
+import { HTMLRenderer } from "@/view/RaceRenderer";
 
-const getRandomNumber = () => Math.floor(Math.random() * 10);
+(document.querySelector("#startBtn") as HTMLButtonElement).addEventListener(
+  "click",
+  () => {
+    const roundCount = +(
+      document.querySelector("#roundCount") as HTMLInputElement
+    ).value;
+    const carCount = +(document.querySelector("#carCount") as HTMLInputElement)
+      .value;
 
-const gameStrategy = () => getRandomNumber() >= 4;
+    const raceGame = new RaceGame({
+      carCount,
+      gameStrategy: () => getRandomNumber() >= 4,
+      raceRenderer: new HTMLRenderer(),
+    });
 
-const raceGame = new RaceGame({
-  roundCount: 5,
-  carCount: 4,
-  gameStrategy,
-});
-
-raceGame.start();
-console.log(raceGame.end());
+    raceGame.start(roundCount);
+  }
+);

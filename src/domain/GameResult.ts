@@ -1,4 +1,4 @@
-import { Car } from "@/Car";
+import { Car } from "@/domain/Car";
 
 export class GameResult {
   readonly cars: Car[];

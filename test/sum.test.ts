@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { sum } from "../src/sum";
+import { utils } from "../src/utils";
 
 describe("add", () => {
-  it("should sum of 2 and 3 equals to 5", () => {
-    expect(sum(2, 3)).toEqual(5);
+  it("should utils of 2 and 3 equals to 5", () => {
+    expect(utils(2, 3)).toEqual(5);
   });
 });

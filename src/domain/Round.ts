@@ -2,20 +2,20 @@ import { GameRule } from "@/domain/GameRule";
 import { GameResult } from "@/domain/GameResult";
 
 export class Round {
-  round: number;
+  id: number;
   result: GameResult;
   gameRule: GameRule;
 
   constructor({
-    round,
+    id,
     baseResult,
     gameRule,
   }: {
-    round: number;
+    id: number;
     baseResult: GameResult;
     gameRule: GameRule;
   }) {
-    this.round = round;
+    this.id = id;
     this.result = baseResult;
     this.gameRule = gameRule;
   }

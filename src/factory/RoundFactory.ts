@@ -17,17 +17,17 @@ export class RoundFactory {
     this.carCount = carCount;
     this.gameRule = gameRule;
   }
-  build({ round, currentRounds }: { round: number; currentRounds: Round[] }) {
+  build({ id, currentRounds }: { id: number; currentRounds: Round[] }) {
     return new Round({
-      round,
-      baseResult: this.getBeforeRoundResult(round, currentRounds),
+      id,
+      baseResult: this.getBeforeRoundResult(id, currentRounds),
       gameRule: this.gameRule,
     });
   }
 
-  private getBeforeRoundResult(round: number, currentRounds: Round[]) {
+  private getBeforeRoundResult(id: number, currentRounds: Round[]) {
     return currentRounds.length === 0
       ? new GameResult(CarsFactory.build(this.carCount))
-      : currentRounds[round - 1].result;
+      : currentRounds[id - 1].result;
   }
 }
