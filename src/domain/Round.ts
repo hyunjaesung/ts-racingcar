@@ -2,9 +2,9 @@ import { GameRule } from "@/domain/GameRule";
 import { GameResult } from "@/domain/GameResult";
 
 export class Round {
-  id: number;
+  readonly id: number;
   result: GameResult;
-  gameRule: GameRule;
+  private readonly gameRule: GameRule;
 
   constructor({
     id,

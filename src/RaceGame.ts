@@ -6,31 +6,39 @@ import { RaceRenderer } from "@/view/RaceRenderer";
 export class RaceGame {
   private readonly rounds: Round[] = [];
   private readonly roundFactory: RoundFactory;
-  private readonly raceRenderer: RaceRenderer;
 
   constructor({
     carCount,
     gameStrategy,
-    raceRenderer,
   }: {
     carCount: number;
     gameStrategy: () => boolean;
-    raceRenderer: RaceRenderer;
   }) {
     this.roundFactory = new RoundFactory({
       carCount,
       gameRule: new GameRule(gameStrategy),
     });
     this.rounds = this.initRounds();
-    this.raceRenderer = raceRenderer;
   }
 
-  start(roundCount: number) {
-    this.raceRenderer.renderRound(this.rounds[0]);
+  start({
+    roundCount,
+    renderer,
+  }: {
+    roundCount: number;
+    renderer: RaceRenderer;
+  }) {
+    renderer.renderRound(this.rounds[0]);
 
     this.roundPlayPerSecond({
       roundCount,
-      cb: (i: number) => () => this.roundPlay(i),
+      roundPlayCallback: (i: number) => {
+        this.roundPlay(i);
+        renderer.renderRound(this.rounds[this.rounds.length - 1]);
+      },
+      roundFinishCallback: () => {
+        renderer.renderFinish();
+      },
     });
   }
 
@@ -40,20 +48,22 @@ export class RaceGame {
       currentRounds: this.rounds,
     });
     round.playRound();
-    this.raceRenderer.renderRound(round);
     this.rounds.push(round);
   }
 
   private roundPlayPerSecond({
     roundCount,
-    cb,
+    roundPlayCallback,
+    roundFinishCallback,
   }: {
     roundCount: number;
-    cb: (i: number) => () => void;
+    roundPlayCallback: (i: number) => void;
+    roundFinishCallback?: () => void;
   }) {
     for (let i = 1; i < roundCount + 1; i++) {
-      setTimeout(cb(i), i * 1000);
+      setTimeout(() => roundPlayCallback(i), i * 1000);
     }
+    setTimeout(() => roundFinishCallback?.(), (roundCount + 1) * 1000);
   }
 
   private initRounds() {
