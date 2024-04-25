@@ -28,15 +28,18 @@ export class RaceGame {
     roundCount: number;
     renderer: RaceRenderer;
   }) {
-    renderer.renderRound(this.rounds[0]);
+    renderer.renderRound({ round: this.rounds[0], roundCount });
 
     this.roundPlayPerSecond({
       roundCount,
-      roundPlayCallback: (i: number) => {
+      play: (i: number) => {
         this.roundPlay(i);
-        renderer.renderRound(this.rounds[this.rounds.length - 1]);
+        renderer.renderRound({
+          round: this.rounds[this.rounds.length - 1],
+          roundCount,
+        });
       },
-      roundFinishCallback: () => {
+      finish: () => {
         renderer.renderFinish();
       },
     });
@@ -53,17 +56,17 @@ export class RaceGame {
 
   private roundPlayPerSecond({
     roundCount,
-    roundPlayCallback,
-    roundFinishCallback,
+    play,
+    finish,
   }: {
     roundCount: number;
-    roundPlayCallback: (i: number) => void;
-    roundFinishCallback?: () => void;
+    play: (i: number) => void;
+    finish?: () => void;
   }) {
     for (let i = 1; i < roundCount + 1; i++) {
-      setTimeout(() => roundPlayCallback(i), i * 1000);
+      setTimeout(() => play(i), i * 1000);
     }
-    setTimeout(() => roundFinishCallback?.(), (roundCount + 1) * 1000);
+    setTimeout(() => finish?.(), (roundCount + 1) * 1000);
   }
 
   private initRounds() {

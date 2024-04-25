@@ -25,15 +25,15 @@ export class Application {
     this.roundResultSelector = roundResultSelector;
   }
 
-  init() {
+  start() {
     const startBtn = document.querySelector(
       this.startButtonSelector
     ) as HTMLButtonElement;
 
-    startBtn.addEventListener("click", this.start.bind(this));
+    startBtn.addEventListener("click", this.handleStartBtnClick.bind(this));
   }
 
-  private start() {
+  private handleStartBtnClick() {
     const carCount = getInputElementValue(this.carCountSelector);
     const roundCount = getInputElementValue(this.roundCountSelector);
 
@@ -44,7 +44,6 @@ export class Application {
 
     const renderer = new HTMLRenderer({
       selector: this.roundResultSelector,
-      roundCount,
     });
 
     raceGame.start({

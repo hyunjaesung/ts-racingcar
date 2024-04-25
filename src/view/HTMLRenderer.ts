@@ -1,39 +1,25 @@
 import { Round } from "@/domain/Round";
 import { RaceRenderer } from "@/view/RaceRenderer";
+import { carLaneTemplate } from "@/view/template/carLane";
+import { Car } from "@/domain/Car";
+
+const END_STRING = "경기가 종료되었습니다";
+
+const renderCarLanes = (cars: Car[], roundCount: number) =>
+  cars.map(car => carLaneTemplate((car.pos / roundCount) * 100)).join(" ");
 
 export class HTMLRenderer implements RaceRenderer {
   private readonly root: HTMLDivElement;
-  private readonly roundCount: number;
 
-  constructor({
-    selector,
-    roundCount,
-  }: {
-    selector: string;
-    roundCount: number;
-  }) {
+  constructor({ selector }: { selector: string }) {
     this.root = document.querySelector(selector) as HTMLDivElement;
-    this.roundCount = roundCount;
   }
 
-  renderRound(round: Round) {
-    this.root.innerHTML =
-      round.result?.cars
-        .map(car => this.template((car.pos / this.roundCount) * 100))
-        .join(" ") || "";
+  renderRound({ round, roundCount }: { round: Round; roundCount: number }) {
+    this.root.innerHTML = renderCarLanes(round.result?.cars || [], roundCount);
   }
 
   renderFinish() {
-    const endString = (document.createElement("div").innerText =
-      "경기가 종료되었습니다");
-    this.root.append(endString);
-  }
-
-  private template(widthPercent: number) {
-    return `
-      <div class="lane">
-        <span style="position: relative; left: ${100 - widthPercent}%">🏎️</span>
-      </div>
-    `;
+    this.root.append(END_STRING);
   }
 }

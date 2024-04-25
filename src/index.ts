@@ -8,4 +8,4 @@ const application = new Application({
   roundResultSelector: "#roundResult",
 });
 
-application.init();
+application.start();

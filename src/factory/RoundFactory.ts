@@ -26,6 +26,7 @@ export class RoundFactory {
   }
 
   private getBeforeRoundResult(id: number, currentRounds: Round[]): GameResult {
+    console.log(currentRounds);
     return currentRounds.length === 0
       ? new GameResult(CarsFactory.build(this.carCount))
       : currentRounds[id - 1].result!;
