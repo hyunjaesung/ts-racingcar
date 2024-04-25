@@ -1,12 +1,6 @@
-import { Round } from "@/domain/Round";
+import { GameResult } from "@/domain/GameResult";
 
 export interface RaceRenderer {
-  renderRound({
-    round,
-    roundCount,
-  }: {
-    round: Round;
-    roundCount: number;
-  }): void;
+  renderResult(result: GameResult): void;
   renderFinish(): void;
 }

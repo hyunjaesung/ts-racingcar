@@ -1,11 +1,11 @@
-import { Round } from "@/domain/Round";
-import { RoundFactory } from "@/factory/RoundFactory";
+import { GameRound } from "@/domain/GameRound";
 import { GameRule } from "@/domain/GameRule";
 import { RaceRenderer } from "@/view/RaceRenderer";
+import { GameResult } from "@/domain/GameResult";
 
 export class RaceGame {
-  private readonly rounds: Round[] = [];
-  private readonly roundFactory: RoundFactory;
+  private readonly results: GameResult[];
+  private readonly gameRound: GameRound;
 
   constructor({
     carCount,
@@ -14,11 +14,11 @@ export class RaceGame {
     carCount: number;
     gameStrategy: () => boolean;
   }) {
-    this.roundFactory = new RoundFactory({
+    this.gameRound = new GameRound({
       carCount,
       gameRule: new GameRule(gameStrategy),
     });
-    this.rounds = this.initRounds();
+    this.results = [this.gameRound.getResult({ id: 0, beforeResults: [] })];
   }
 
   start({
@@ -28,16 +28,13 @@ export class RaceGame {
     roundCount: number;
     renderer: RaceRenderer;
   }) {
-    renderer.renderRound({ round: this.rounds[0], roundCount });
+    renderer.renderResult(this.results[0]);
 
     this.roundPlayPerSecond({
       roundCount,
       play: (i: number) => {
         this.roundPlay(i);
-        renderer.renderRound({
-          round: this.rounds[this.rounds.length - 1],
-          roundCount,
-        });
+        renderer.renderResult(this.results[this.results.length - 1]);
       },
       finish: () => {
         renderer.renderFinish();
@@ -46,12 +43,11 @@ export class RaceGame {
   }
 
   private roundPlay(id: number) {
-    const round = this.roundFactory.build({
+    const result = this.gameRound.getResult({
       id,
-      currentRounds: this.rounds,
+      beforeResults: this.results,
     });
-    round.playRound();
-    this.rounds.push(round);
+    this.results.push(result);
   }
 
   private roundPlayPerSecond({
@@ -67,9 +63,5 @@ export class RaceGame {
       setTimeout(() => play(i), i * 1000);
     }
     setTimeout(() => finish?.(), (roundCount + 1) * 1000);
-  }
-
-  private initRounds() {
-    return [this.roundFactory.build({ id: 0, currentRounds: [] })];
   }
 }

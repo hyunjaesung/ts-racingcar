@@ -1,7 +1,7 @@
-import { Round } from "@/domain/Round";
 import { RaceRenderer } from "@/view/RaceRenderer";
 import { carLaneTemplate } from "@/view/template/carLane";
 import { Car } from "@/domain/Car";
+import { GameResult } from "@/domain/GameResult";
 
 const END_STRING = "경기가 종료되었습니다";
 
@@ -10,13 +10,21 @@ const renderCarLanes = (cars: Car[], roundCount: number) =>
 
 export class HTMLRenderer implements RaceRenderer {
   private readonly root: HTMLDivElement;
+  private readonly roundCount: number;
 
-  constructor({ selector }: { selector: string }) {
+  constructor({
+    selector,
+    roundCount,
+  }: {
+    selector: string;
+    roundCount: number;
+  }) {
     this.root = document.querySelector(selector) as HTMLDivElement;
+    this.roundCount = roundCount;
   }
 
-  renderRound({ round, roundCount }: { round: Round; roundCount: number }) {
-    this.root.innerHTML = renderCarLanes(round.result?.cars || [], roundCount);
+  renderResult(result: GameResult) {
+    this.root.innerHTML = renderCarLanes(result.cars || [], this.roundCount);
   }
 
   renderFinish() {

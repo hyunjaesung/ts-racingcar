@@ -44,6 +44,7 @@ export class Application {
 
     const renderer = new HTMLRenderer({
       selector: this.roundResultSelector,
+      roundCount,
     });
 
     raceGame.start({
