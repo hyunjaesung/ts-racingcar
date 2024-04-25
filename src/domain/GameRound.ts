@@ -17,7 +17,7 @@ export class GameRound {
     this.gameRule = gameRule;
   }
 
-  getResult({
+  getRoundResult({
     id,
     beforeResults,
   }: {
