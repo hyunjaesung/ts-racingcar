@@ -17,9 +17,10 @@ export class HTMLRenderer implements RaceRenderer {
   }
 
   renderRound(round: Round) {
-    this.root.innerHTML = round.result.cars
-      .map(car => this.template((car.pos / this.roundCount) * 100))
-      .join(" ");
+    this.root.innerHTML =
+      round.result?.cars
+        .map(car => this.template((car.pos / this.roundCount) * 100))
+        .join(" ") || "";
   }
 
   renderFinish() {

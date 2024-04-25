@@ -3,7 +3,12 @@ import { GameResult } from "@/domain/GameResult";
 
 export class Round {
   readonly id: number;
-  result: GameResult;
+  private readonly baseResult: GameResult;
+  result?: GameResult;
+  get() {
+    if (this.result === undefined)
+      throw new Error("결과를 얻기 위해선 playRound 실행이 필요합니다");
+  }
   private readonly gameRule: GameRule;
 
   constructor({
@@ -16,12 +21,12 @@ export class Round {
     gameRule: GameRule;
   }) {
     this.id = id;
-    this.result = baseResult;
+    this.baseResult = baseResult;
     this.gameRule = gameRule;
   }
 
   playRound() {
-    const resultCars = this.result.cars.map(car => {
+    const resultCars = this.baseResult.cars.map(car => {
       if (this.gameRule.strategy()) {
         return car.withMove();
       }

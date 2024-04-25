@@ -25,9 +25,9 @@ export class RoundFactory {
     });
   }
 
-  private getBeforeRoundResult(id: number, currentRounds: Round[]) {
+  private getBeforeRoundResult(id: number, currentRounds: Round[]): GameResult {
     return currentRounds.length === 0
       ? new GameResult(CarsFactory.build(this.carCount))
-      : currentRounds[id - 1].result;
+      : currentRounds[id - 1].result!;
   }
 }
