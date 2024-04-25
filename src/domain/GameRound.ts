@@ -17,11 +17,16 @@ export class GameRound {
     this.gameRule = gameRule;
   }
 
-  play({ id, beforeResults }: { id: number; beforeResults: GameResult[] }) {
-    const cars =
-      beforeResults.length === 0
-        ? CarsFactory.build(this.carCount)
-        : beforeResults[id - 1].cars.map(car => this.gameRule.playGame(car));
+  play({
+    id,
+    beforeResult,
+  }: {
+    id: number;
+    beforeResult?: GameResult | null;
+  }): GameResult {
+    const cars = !beforeResult
+      ? CarsFactory.build(this.carCount)
+      : beforeResult.cars.map(car => this.gameRule.playGame(car));
 
     return new GameResult({
       cars,
