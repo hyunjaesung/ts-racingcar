@@ -18,9 +18,7 @@ export class RaceGame {
       carCount,
       gameRule: new GameRule(gameStrategy),
     });
-    this.results = [
-      this.gameRound.getRoundResult({ id: 0, beforeResults: [] }),
-    ];
+    this.results = [this.gameRound.play({ id: 0, beforeResults: [] })];
   }
 
   start({
@@ -45,7 +43,7 @@ export class RaceGame {
   }
 
   private roundPlay(id: number) {
-    const result = this.gameRound.getRoundResult({
+    const result = this.gameRound.play({
       id,
       beforeResults: this.results,
     });

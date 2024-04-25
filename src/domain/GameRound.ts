@@ -17,13 +17,7 @@ export class GameRound {
     this.gameRule = gameRule;
   }
 
-  getRoundResult({
-    id,
-    beforeResults,
-  }: {
-    id: number;
-    beforeResults: GameResult[];
-  }) {
+  play({ id, beforeResults }: { id: number; beforeResults: GameResult[] }) {
     const cars =
       beforeResults.length === 0
         ? CarsFactory.build(this.carCount)
