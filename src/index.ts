@@ -6,6 +6,6 @@ const root = document.querySelector("#app");
 
 if (root) {
   const carRace = new CarRace();
-  const resultView = new ResultView(root);
+  const resultView = new ResultView();
   new RaceController(carRace, resultView);
 }

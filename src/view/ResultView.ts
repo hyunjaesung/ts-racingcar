@@ -1,16 +1,18 @@
 import Car from "@/components/car";
+import DOM_SELECTOR_ID from "@/constants/domSelector";
 
 class ResultView {
-  private root: Element;
-  private RESULT_ID: string;
+  private sectionElement: HTMLElement | null;
 
-  constructor(root: Element) {
-    this.root = root;
-    this.RESULT_ID = "car-race-result";
-  }
-
-  private addClassList(element: Element) {
-    element.classList.add(this.RESULT_ID);
+  constructor() {
+    this.sectionElement = document.getElementById(
+      DOM_SELECTOR_ID.RACE_RESULT_SECTION
+    );
+    if (!this.sectionElement) {
+      throw new Error(
+        `Element with id ${DOM_SELECTOR_ID.RACE_RESULT_SECTION} not found`
+      );
+    }
   }
 
   private renderEachCar(car: Car) {
@@ -22,25 +24,27 @@ class ResultView {
 
   public renderResult(result: Car[]) {
     const ulElement = document.createElement("ul");
-    this.addClassList(ulElement);
     for (const car of result) {
       ulElement.appendChild(this.renderEachCar(car));
     }
-    this.root.appendChild(ulElement);
+    if (this.sectionElement) {
+      this.sectionElement.innerHTML = "";
+      this.sectionElement.appendChild(ulElement);
+    }
   }
 
   public renderWinner(winners: Car[]) {
     const divElement = document.createElement("div");
-    this.addClassList(divElement);
     divElement.textContent = `우승자는 ${winners.map(winner => winner.getName()).join(", ")}입니다.`;
-    this.root.appendChild(divElement);
+    if (this.sectionElement) {
+      this.sectionElement.appendChild(divElement);
+    }
   }
 
   public reset() {
-    const resultViews = document.querySelectorAll(`.${this.RESULT_ID}`);
-    resultViews.forEach(resultView => {
-      resultView.remove();
-    });
+    if (this.sectionElement) {
+      this.sectionElement.innerHTML = "";
+    }
   }
 }
 
