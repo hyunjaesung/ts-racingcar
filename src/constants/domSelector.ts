@@ -3,6 +3,7 @@ const DOM_SELECTOR_ID = {
   TRY_COUNT_INPUT: "try-count-input",
   SUBMIT_BUTTON: "submit-button",
   CAR_RACE_FORM: "car-race-form",
+  RACE_RESULT_SECTION: "car-race-result",
 };
 
 export default DOM_SELECTOR_ID;

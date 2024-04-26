@@ -1,13 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
-</head>
-<body>
-<div id="app"></div>
-<script type="module" src="/src/index.ts"></script>
-</body>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <form id="car-race-form">
+          <label>
+            <span>자도차 대수는 몇 대인가요?</span>
+            <input id="car-count-input" type="number" />
+          </label>
+          <label>
+            <span>시도할 횟수는 몇 회인가요?</span>
+            <input id="try-count-input" type="number" />
+          </label>
+          <button id="submit-button" type="submit">시작</button>
+        </form>
+      </section>
+      <section id="car-race-result"></section>
+    </div>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
 </html>
