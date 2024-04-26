@@ -14,7 +14,7 @@ class ResultView {
   }
 
   private renderEachCar(car: Car) {
-    const result = `${car.getName()} : ${"@".repeat(car.getCurrentDistance())}`;
+    const result = `${car.getName()} : ${"@".repeat(car.getDistance())}`;
     const liElement = document.createElement("li");
     liElement.textContent = result;
     return liElement;

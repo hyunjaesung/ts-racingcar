@@ -7,24 +7,17 @@ describe("initialize Car class", () => {
     const car = new Car(carName);
     expect(car.getName()).toEqual(carName);
   });
-  it("Car class should have empty distances", () => {
+  it("Car class should have 0 distance", () => {
     const car = new Car("Car");
-    expect(car.getDistances().length).toEqual(0);
+    expect(car.getDistance()).toEqual(0);
   });
 });
 
 describe("move Car class", () => {
-  it("moveForward should push the value of 1 + the last element of the previous distance to the distances array", () => {
+  it("moveForward should add 1 to the current distance", () => {
     const car = new Car("Car");
+    const prevDistance = car.getDistance();
     car.moveForward();
-    expect(car.getDistances().length).toEqual(1);
-    expect(car.getCurrentDistance()).toEqual(1);
-  });
-
-  it("stay should push the value of the last element of the previous distance to the distances array", () => {
-    const car = new Car("Car");
-    car.stay();
-    expect(car.getDistances().length).toEqual(1);
-    expect(car.getCurrentDistance()).toEqual(0);
+    expect(car.getDistance()).toEqual(prevDistance + 1);
   });
 });

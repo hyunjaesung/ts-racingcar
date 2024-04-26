@@ -43,17 +43,13 @@ class CarRace {
     for (const car of this.result) {
       if (this.isMoveForward(this.getRandomNumberBetween0And9())) {
         car.moveForward();
-      } else {
-        car.stay();
       }
     }
   }
 
   public getWinners() {
-    const maxDistance = Math.max(
-      ...this.result.map(car => car.getCurrentDistance())
-    );
-    return this.result.filter(car => car.getCurrentDistance() === maxDistance);
+    const maxDistance = Math.max(...this.result.map(car => car.getDistance()));
+    return this.result.filter(car => car.getDistance() === maxDistance);
   }
 
   public initializeResult() {
