@@ -8,12 +8,10 @@ class RaceController {
 
   private carCountInput: HTMLInputElement | null;
   private tryCountInput: HTMLInputElement | null;
-  private submitButton: HTMLButtonElement | null;
   private carRaceForm: HTMLFormElement | null;
 
   constructor(carRace: CarRace, resultView: ResultView) {
-    const { CAR_COUNT_INPUT, TRY_COUNT_INPUT, SUBMIT_BUTTON, CAR_RACE_FORM } =
-      DOM_SELECTOR_ID;
+    const { CAR_COUNT_INPUT, TRY_COUNT_INPUT, CAR_RACE_FORM } = DOM_SELECTOR_ID;
     this.carRace = carRace;
     this.resultView = resultView;
     this.carCountInput = document.getElementById(
@@ -22,9 +20,6 @@ class RaceController {
     this.tryCountInput = document.getElementById(
       TRY_COUNT_INPUT
     ) as HTMLInputElement;
-    this.submitButton = document.getElementById(
-      SUBMIT_BUTTON
-    ) as HTMLButtonElement;
     this.carRaceForm = document.getElementById(
       CAR_RACE_FORM
     ) as HTMLFormElement;
@@ -63,14 +58,9 @@ class RaceController {
 
   private handleSubmit(event: Event) {
     event.preventDefault();
-    this.handleRaceReset();
+    this.resultView.reset();
     this.carRace.start(this.resultView);
     this.handleInputReset();
-  }
-
-  private handleRaceReset() {
-    this.carRace.initializeResult();
-    this.resultView.reset();
   }
 
   private handleInputReset() {
