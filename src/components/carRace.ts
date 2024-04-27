@@ -1,3 +1,4 @@
+import ResultView from "@/view/ResultView";
 import Car from "./car";
 
 class CarRace {
@@ -57,6 +58,18 @@ class CarRace {
     for (let i = 1; i < this.carCount + 1; i++) {
       this.result.push(new Car(i.toString()));
     }
+  }
+
+  public start(resultView: ResultView) {
+    const intervalId = setInterval(() => {
+      this.moveCars();
+      resultView.renderResult(this.result);
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(intervalId);
+      resultView.renderWinner(this.getWinners());
+    }, this.tryCount * 1000);
   }
 }
 

@@ -64,7 +64,7 @@ class RaceController {
   private handleSubmit(event: Event) {
     event.preventDefault();
     this.handleRaceReset();
-    this.raceStart();
+    this.carRace.start(this.resultView);
     this.handleInputReset();
   }
 
@@ -80,20 +80,6 @@ class RaceController {
     if (this.tryCountInput) {
       this.tryCountInput.value = "";
     }
-  }
-
-  private raceStart() {
-    if (this.submitButton) this.submitButton.disabled = true;
-    const intervalId = setInterval(() => {
-      this.carRace.moveCars();
-      this.resultView.renderResult(this.carRace.getResult());
-    }, 1000);
-
-    setTimeout(() => {
-      clearInterval(intervalId);
-      this.resultView.renderWinner(this.carRace.getWinners());
-      if (this.submitButton) this.submitButton.disabled = false;
-    }, this.carRace.getTryCount() * 1000);
   }
 }
 
