@@ -1,67 +1,38 @@
 import { GameRound } from "@/domain/GameRound";
 import { GameRule } from "@/domain/GameRule";
-import { RaceRenderer } from "@/view/RaceRenderer";
 import { GameResult } from "@/domain/GameResult";
 
 export class RaceGame {
   private readonly results: GameResult[];
-  private readonly gameRound: GameRound;
+  private readonly gameStrategy: () => boolean;
+  private gameRound?: GameRound;
 
-  constructor({
-    carCount,
-    gameStrategy,
-  }: {
-    carCount: number;
-    gameStrategy: () => boolean;
-  }) {
-    this.gameRound = new GameRound({
-      carCount,
-      gameRule: new GameRule(gameStrategy),
-    });
-    this.results = [this.gameRound.play({ id: 0 })];
+  constructor({ gameStrategy }: { gameStrategy: () => boolean }) {
+    this.gameStrategy = gameStrategy;
+    this.results = [];
   }
 
-  start({
-    roundCount,
-    renderer,
-  }: {
-    roundCount: number;
-    renderer: RaceRenderer;
-  }) {
-    renderer.renderResult(this.results[0]);
-
-    this.roundPlayPerSecond({
-      roundCount,
-      play: (i: number) => {
-        this.roundPlay(i);
-        renderer.renderResult(this.results[this.results.length - 1]);
-      },
-      finish: () => {
-        renderer.renderFinish();
-      },
+  start({ carCount, roundCount }: { carCount: number; roundCount: number }) {
+    this.gameRound = new GameRound({
+      carCount,
+      gameRule: new GameRule(this.gameStrategy),
     });
+
+    for (let i = 0; i < roundCount + 1; i++) {
+      this.roundPlay(i);
+    }
+    return this.results;
   }
 
   private roundPlay(id: number) {
+    if (!this.gameRound) throw new Error("gameRound must be initialized");
     const result = this.gameRound.play({
       id,
-      beforeResult: this.results[this.results.length - 1],
+      beforeResult:
+        this.results.length === 0
+          ? undefined
+          : this.results[this.results.length - 1],
     });
     this.results.push(result);
-  }
-
-  private roundPlayPerSecond({
-    roundCount,
-    play,
-    finish,
-  }: {
-    roundCount: number;
-    play: (i: number) => void;
-    finish?: () => void;
-  }) {
-    for (let i = 1; i < roundCount + 1; i++) {
-      setTimeout(() => play(i), i * 1000);
-    }
-    setTimeout(() => finish?.(), (roundCount + 1) * 1000);
   }
 }

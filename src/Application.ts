@@ -1,12 +1,10 @@
-import { getInputElementValue, getRandomNumber } from "@/utils";
+import { getRandomNumber } from "@/utils";
 import { RaceGame } from "@/RaceGame";
-import { HTMLRenderer } from "@/view/HTMLRenderer";
+import { Counts, RaceView } from "@/view/RaceView";
 
 export class Application {
-  private readonly startButtonSelector: string;
-  private readonly carCountSelector: string;
-  private readonly roundCountSelector: string;
-  private readonly roundResultSelector: string;
+  private readonly raceView: RaceView;
+  private readonly raceGame: RaceGame;
 
   constructor({
     startButtonSelector,
@@ -19,37 +17,26 @@ export class Application {
     roundCountSelector: string;
     roundResultSelector: string;
   }) {
-    this.startButtonSelector = startButtonSelector;
-    this.carCountSelector = carCountSelector;
-    this.roundCountSelector = roundCountSelector;
-    this.roundResultSelector = roundResultSelector;
+    this.raceView = new RaceView({
+      startButtonSelector,
+      carCountSelector,
+      roundCountSelector,
+      roundResultSelector,
+    });
+
+    this.raceGame = new RaceGame({
+      gameStrategy: () => getRandomNumber() >= 4,
+    });
   }
 
   start() {
-    const startBtn = document.querySelector(
-      this.startButtonSelector
-    ) as HTMLButtonElement;
-
-    startBtn.addEventListener("click", this.handleStartBtnClick.bind(this));
+    this.raceView.start({
+      handleStartButtonClick: this.raceStart.bind(this),
+    });
   }
 
-  private handleStartBtnClick() {
-    const carCount = getInputElementValue(this.carCountSelector);
-    const roundCount = getInputElementValue(this.roundCountSelector);
-
-    const raceGame = new RaceGame({
-      carCount,
-      gameStrategy: () => getRandomNumber() >= 4,
-    });
-
-    const renderer = new HTMLRenderer({
-      selector: this.roundResultSelector,
-      roundCount,
-    });
-
-    raceGame.start({
-      roundCount,
-      renderer,
-    });
+  private raceStart(param: Counts) {
+    const results = this.raceGame.start(param);
+    this.raceView.render(results);
   }
 }
