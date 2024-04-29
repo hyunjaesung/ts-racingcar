@@ -1,6 +1,7 @@
 import { GameRound } from "@/domain/GameRound";
 import { GameRule } from "@/domain/GameRule";
 import { GameResult } from "@/domain/GameResult";
+import { CarsFactory } from "@/factory/CarsFactory";
 
 export class RaceGame {
   private readonly results: GameResult[];
@@ -14,7 +15,7 @@ export class RaceGame {
 
   start({ carCount, roundCount }: { carCount: number; roundCount: number }) {
     this.gameRound = new GameRound({
-      carCount,
+      initialCars: CarsFactory.build(carCount),
       gameRule: new GameRule(this.gameStrategy),
     });
 
@@ -24,14 +25,11 @@ export class RaceGame {
     return this.results;
   }
 
-  private roundPlay(id: number) {
+  private roundPlay(roundIndex: number) {
     if (!this.gameRound) throw new Error("gameRound must be initialized");
     const result = this.gameRound.play({
-      id,
-      beforeResult:
-        this.results.length === 0
-          ? undefined
-          : this.results[this.results.length - 1],
+      id: roundIndex,
+      beforeResult: this.results?.[roundIndex - 1],
     });
     this.results.push(result);
   }

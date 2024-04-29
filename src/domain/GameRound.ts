@@ -1,19 +1,19 @@
 import { GameResult } from "@/domain/GameResult";
 import { GameRule } from "@/domain/GameRule";
-import { CarsFactory } from "@/factory/CarsFactory";
+import { Car } from "@/domain/Car";
 
 export class GameRound {
-  private readonly carCount: number;
+  private readonly initialCars: Car[];
   private readonly gameRule: GameRule;
 
   constructor({
-    carCount,
+    initialCars,
     gameRule,
   }: {
-    carCount: number;
+    initialCars: Car[];
     gameRule: GameRule;
   }) {
-    this.carCount = carCount;
+    this.initialCars = initialCars;
     this.gameRule = gameRule;
   }
 
@@ -22,14 +22,16 @@ export class GameRound {
     beforeResult,
   }: {
     id: number;
-    beforeResult?: GameResult | null;
+    beforeResult?: GameResult;
   }): GameResult {
-    const cars = !beforeResult
-      ? CarsFactory.build(this.carCount)
+    const noBeforeResult = !beforeResult || !beforeResult.cars.length;
+
+    const movedCars = noBeforeResult
+      ? this.initialCars
       : beforeResult.cars.map(car => this.gameRule.play(car));
 
     return new GameResult({
-      cars,
+      cars: movedCars,
       roundId: id,
     });
   }
