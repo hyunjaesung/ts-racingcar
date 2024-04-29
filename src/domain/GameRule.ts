@@ -7,7 +7,7 @@ export class GameRule {
     this.strategy = gameRule;
   }
 
-  playGame(car: Car) {
+  play(car: Car) {
     if (this.strategy()) {
       return car.withMove();
     }

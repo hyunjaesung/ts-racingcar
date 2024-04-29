@@ -26,7 +26,7 @@ export class GameRound {
   }): GameResult {
     const cars = !beforeResult
       ? CarsFactory.build(this.carCount)
-      : beforeResult.cars.map(car => this.gameRule.playGame(car));
+      : beforeResult.cars.map(car => this.gameRule.play(car));
 
     return new GameResult({
       cars,
