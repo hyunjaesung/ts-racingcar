@@ -2,7 +2,7 @@ import { GameResult } from "@/domain/GameResult";
 import { GameRule } from "@/domain/GameRule";
 import { Car } from "@/domain/Car";
 
-export class GameRound {
+export class GamePlay {
   private readonly initialCars: Car[];
   private readonly gameRule: GameRule;
 
@@ -17,11 +17,11 @@ export class GameRound {
     this.gameRule = gameRule;
   }
 
-  play({
-    id,
+  roundPlay({
+    roundId,
     beforeResult,
   }: {
-    id: number;
+    roundId: number;
     beforeResult?: GameResult;
   }): GameResult {
     const noBeforeResult = !beforeResult || !beforeResult.cars.length;
@@ -32,7 +32,7 @@ export class GameRound {
 
     return new GameResult({
       cars: movedCars,
-      roundId: id,
+      roundId,
     });
   }
 }
