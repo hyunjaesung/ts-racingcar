@@ -1,11 +1,9 @@
 import "./style.css";
 import { Application } from "@/Application";
+import { RaceDomSelector } from "@/view/selector";
 
 const application = new Application({
-  startButtonSelector: "#startBtn",
-  carCountSelector: "#carCount",
-  roundCountSelector: "#roundCount",
-  roundResultSelector: "#roundResult",
+  selectors: RaceDomSelector,
 });
 
 application.start();

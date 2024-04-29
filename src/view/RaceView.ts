@@ -2,13 +2,7 @@ import { GameResult } from "@/domain/GameResult";
 import { ResultRenderer } from "@/view/ResultRenderer";
 import { StartButton } from "@/view/components/StartButton";
 import { Input } from "@/view/components/Input";
-
-type RaceViewSelector = {
-  startButtonSelector: string;
-  carCountSelector: string;
-  roundCountSelector: string;
-  roundResultSelector: string;
-};
+import { RaceDomSelectorType } from "@/view/selector";
 
 export type Counts = { carCount: number; roundCount: number };
 
@@ -18,17 +12,12 @@ export class RaceView {
   private readonly roundCountInput: Input;
   private readonly resultRenderer: ResultRenderer;
 
-  constructor({
-    startButtonSelector,
-    carCountSelector,
-    roundCountSelector,
-    roundResultSelector,
-  }: RaceViewSelector) {
-    this.startBtn = new StartButton(startButtonSelector);
-    this.carCountInput = new Input(carCountSelector);
-    this.roundCountInput = new Input(roundCountSelector);
+  constructor(selectors: RaceDomSelectorType) {
+    this.startBtn = new StartButton(selectors.startButtonSelector);
+    this.carCountInput = new Input(selectors.carCountSelector);
+    this.roundCountInput = new Input(selectors.roundCountSelector);
     this.resultRenderer = new ResultRenderer({
-      rootSelector: roundResultSelector,
+      rootSelector: selectors.roundResultSelector,
     });
   }
 

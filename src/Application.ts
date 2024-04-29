@@ -1,28 +1,14 @@
 import { getRandomNumber } from "@/utils";
 import { RaceGame } from "@/RaceGame";
 import { Counts, RaceView } from "@/view/RaceView";
+import { RaceDomSelectorType } from "@/view/selector";
 
 export class Application {
   private readonly raceView: RaceView;
   private readonly raceGame: RaceGame;
 
-  constructor({
-    startButtonSelector,
-    carCountSelector,
-    roundCountSelector,
-    roundResultSelector,
-  }: {
-    startButtonSelector: string;
-    carCountSelector: string;
-    roundCountSelector: string;
-    roundResultSelector: string;
-  }) {
-    this.raceView = new RaceView({
-      startButtonSelector,
-      carCountSelector,
-      roundCountSelector,
-      roundResultSelector,
-    });
+  constructor({ selectors }: { selectors: RaceDomSelectorType }) {
+    this.raceView = new RaceView(selectors);
 
     this.raceGame = new RaceGame({
       gameStrategy: () => getRandomNumber() >= 4,
