@@ -45,15 +45,11 @@ class RaceController {
   }
 
   private handleCarCountInput(event: Event) {
-    this.carRace.setCarCount(
-      parseInt((event.target as HTMLInputElement).value)
-    );
+    this.carRace.carCount = parseInt((event.target as HTMLInputElement).value);
   }
 
   private handleTryCountInput(event: Event) {
-    this.carRace.setTryCount(
-      parseInt((event.target as HTMLInputElement).value)
-    );
+    this.carRace.tryCount = parseInt((event.target as HTMLInputElement).value);
   }
 
   private handleSubmit(event: Event) {

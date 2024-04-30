@@ -3,32 +3,32 @@ import Car from "./car";
 import RaceRound from "./raceRound";
 
 class CarRace {
-  private carCount: number;
-  private tryCount: number;
+  private _carCount: number;
+  private _tryCount: number;
   private result: Car[];
   private raceRound: RaceRound;
 
   constructor() {
-    this.carCount = 0;
-    this.tryCount = 0;
+    this._carCount = 0;
+    this._tryCount = 0;
     this.result = [];
     this.raceRound = new RaceRound();
   }
 
-  public setCarCount(carCount: number): void {
-    this.carCount = carCount;
+  get carCount(): number {
+    return this._carCount;
   }
 
-  public setTryCount(tryCount: number): void {
-    this.tryCount = tryCount;
+  get tryCount(): number {
+    return this._tryCount;
   }
 
-  public getCarCount(): number {
-    return this.carCount;
+  set carCount(carCount: number) {
+    this._carCount = carCount;
   }
 
-  public getTryCount(): number {
-    return this.tryCount;
+  set tryCount(tryCount: number) {
+    this._tryCount = tryCount;
   }
 
   public getResult(): Car[] {
@@ -42,7 +42,7 @@ class CarRace {
 
   private initializeResult() {
     this.result = [];
-    for (let i = 1; i < this.carCount + 1; i++) {
+    for (let i = 1; i < this._carCount + 1; i++) {
       this.result.push(new Car(i.toString()));
     }
   }
@@ -57,7 +57,7 @@ class CarRace {
     setTimeout(() => {
       clearInterval(intervalId);
       resultView && resultView.renderWinner(this.getWinners());
-    }, this.tryCount * 1000);
+    }, this._tryCount * 1000);
   }
 }
 
