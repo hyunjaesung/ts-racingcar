@@ -1,22 +1,22 @@
 class Car {
-  private name: string;
-  private distance: number;
+  private _name: string;
+  private _distance: number;
 
   constructor(name: string) {
-    this.name = name;
-    this.distance = 0;
+    this._name = name;
+    this._distance = 0;
   }
 
-  public getName(): string {
-    return this.name;
+  get name(): string {
+    return this._name;
   }
 
-  public getDistance(): number {
-    return this.distance;
+  get distance(): number {
+    return this._distance;
   }
 
   public moveForward(): void {
-    this.distance++;
+    this._distance++;
   }
 }
 

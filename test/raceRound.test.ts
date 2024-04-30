@@ -8,8 +8,8 @@ describe("moveCars function in RaceRound class", () => {
     const result = [new Car("1"), new Car("2")];
     raceRound.moveCars(result);
     for (const car of result) {
-      expect(car.getDistance()).toBeGreaterThanOrEqual(0);
-      expect(car.getDistance()).toBeLessThanOrEqual(1);
+      expect(car.distance).toBeGreaterThanOrEqual(0);
+      expect(car.distance).toBeLessThanOrEqual(1);
     }
   });
 
@@ -21,7 +21,7 @@ describe("moveCars function in RaceRound class", () => {
       raceRound.moveCars(result);
     }
     for (const car of result) {
-      expect(car.getDistance()).toBeLessThanOrEqual(tryCount);
+      expect(car.distance).toBeLessThanOrEqual(tryCount);
     }
   });
 });

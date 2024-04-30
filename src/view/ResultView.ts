@@ -16,7 +16,7 @@ class ResultView {
   }
 
   private renderEachCar(car: Car) {
-    const result = `${car.getName()} : ${"@".repeat(car.getDistance())}`;
+    const result = `${car.name} : ${"@".repeat(car.distance)}`;
     const liElement = document.createElement("li");
     liElement.textContent = result;
     return liElement;
@@ -35,7 +35,7 @@ class ResultView {
 
   public renderWinner(winners: Car[]) {
     const divElement = document.createElement("div");
-    divElement.textContent = `우승자는 ${winners.map(winner => winner.getName()).join(", ")}입니다.`;
+    divElement.textContent = `우승자는 ${winners.map(winner => winner.name).join(", ")}입니다.`;
     if (this.sectionElement) {
       this.sectionElement.appendChild(divElement);
     }

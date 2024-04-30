@@ -51,7 +51,7 @@ describe("start function in Car Race Class", () => {
     carRace.start();
     await new Promise(resolve => setTimeout(resolve, tryCount * 1000));
     for (const car of carRace.getResult()) {
-      expect(car.getDistance() <= tryCount).toBeTruthy();
+      expect(car.distance <= tryCount).toBeTruthy();
     }
   });
 });

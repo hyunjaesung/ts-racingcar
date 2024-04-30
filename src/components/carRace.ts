@@ -36,8 +36,8 @@ class CarRace {
   }
 
   private getWinners() {
-    const maxDistance = Math.max(...this.result.map(car => car.getDistance()));
-    return this.result.filter(car => car.getDistance() === maxDistance);
+    const maxDistance = Math.max(...this.result.map(car => car.distance));
+    return this.result.filter(car => car.distance === maxDistance);
   }
 
   private initializeResult() {
