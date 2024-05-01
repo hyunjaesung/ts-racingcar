@@ -1,7 +1,8 @@
 import { getRandomNumber } from "@/utils";
 import { RaceGame } from "@/RaceGame";
-import { Counts, RaceView } from "@/view/RaceView";
+import { RaceView } from "@/view/RaceView";
 import { RaceDomSelectorType } from "@/view/selector";
+import { RaceStartParam } from "./view/types";
 
 export class Application {
   private readonly raceView: RaceView;
@@ -21,8 +22,8 @@ export class Application {
     });
   }
 
-  private raceStart(param: Counts) {
+  private raceStart(param: RaceStartParam) {
     const results = this.raceGame.start(param);
-    this.raceView.render(results);
+    this.raceView.renderResults(results);
   }
 }

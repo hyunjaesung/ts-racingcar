@@ -2,6 +2,7 @@ import { GamePlay } from "@/domain/GamePlay";
 import { GameRule } from "@/domain/GameRule";
 import { GameResult } from "@/domain/GameResult";
 import { CarsFactory } from "@/factory/CarsFactory";
+import { RaceStartParam } from "./view/types";
 
 export class RaceGame {
   private readonly results: GameResult[];
@@ -13,9 +14,9 @@ export class RaceGame {
     this.results = [];
   }
 
-  start({ carCount, roundCount }: { carCount: number; roundCount: number }) {
+  start({ carNames, roundCount }: RaceStartParam) {
     this.gamePlay = new GamePlay({
-      initialCars: CarsFactory.build(carCount),
+      initialCars: CarsFactory.build(carNames),
       gameRule: new GameRule(this.gameStrategy),
     });
 
