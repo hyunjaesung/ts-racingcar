@@ -1,7 +1,9 @@
-import { sum } from "@/sum";
+import "./style.css";
+import { Application } from "@/Application";
+import { RaceDomSelector } from "@/view/selector";
 
-const root = document.querySelector("#app");
+const application = new Application({
+  selectors: RaceDomSelector,
+});
 
-if (root) {
-  root.innerHTML = `${sum(1, 2)}`;
-}
+application.start();

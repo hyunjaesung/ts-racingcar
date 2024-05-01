@@ -5,4 +5,18 @@
     -webkit-font-smoothing: antialiased;
     margin-top: 60px;
     text-align: center;
+    width: 500px;
+}
+
+.lane{
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    width: 500px;
+    background-color: antiquewhite;
+    border-bottom: 1px solid black;
+}
+
+#roundResult{
+    width: 500px;
 }
