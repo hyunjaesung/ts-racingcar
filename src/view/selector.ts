@@ -1,6 +1,7 @@
 export const RaceDomSelector = {
   startButtonSelector: "#startBtn",
-  carCountSelector: "#carCount",
+  carNameSelector: "#carName",
+  carNameAddSelector: "#carNameAdd",
   roundCountSelector: "#roundCount",
   roundResultSelector: "#roundResult",
 };
