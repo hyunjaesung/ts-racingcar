@@ -9,13 +9,12 @@ class RaceRound {
     return number >= 4;
   }
 
-  public moveCars(result: Car[]): Car[] {
+  public moveCars(result: Car[]): void {
     for (const car of result) {
       if (this.isMoveForward(this.getRandomNumberBetween0And9())) {
         car.moveForward();
       }
     }
-    return result;
   }
 }
 

@@ -4,8 +4,9 @@ import Car from "../src/components/car";
 describe("move Car class", () => {
   it("moveForward should add 1 to the current distance", () => {
     const car = new Car("Car");
-    const prevDistance = car.distance;
+    const prevDistance = [...car.distance];
     car.moveForward();
-    expect(car.distance).toEqual(prevDistance + 1);
+    expect(car.distance.length).toEqual(prevDistance.length + 1);
+    expect(car.getCurrentDistance()).toEqual(1);
   });
 });
