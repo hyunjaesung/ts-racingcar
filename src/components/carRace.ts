@@ -1,18 +1,14 @@
-import ResultView from "@/view/ResultView";
 import Car from "./car";
-import RaceRound from "./raceRound";
 
 class CarRace {
   private _carCount: number;
   private _tryCount: number;
-  private result: Car[];
-  private raceRound: RaceRound;
+  private _result: Car[];
 
   constructor() {
     this._carCount = 0;
     this._tryCount = 0;
-    this.result = [];
-    this.raceRound = new RaceRound();
+    this._result = [];
   }
 
   get carCount(): number {
@@ -23,6 +19,10 @@ class CarRace {
     return this._tryCount;
   }
 
+  get result(): Car[] {
+    return this._result;
+  }
+
   set carCount(carCount: number) {
     this._carCount = carCount;
   }
@@ -31,35 +31,35 @@ class CarRace {
     this._tryCount = tryCount;
   }
 
-  public getResult(): Car[] {
-    return this.result;
-  }
-
-  private getWinners() {
-    const maxDistance = Math.max(
-      ...this.result.map(car => car.getCurrentDistance())
-    );
-    return this.result.filter(car => car.getCurrentDistance() === maxDistance);
-  }
-
   private initializeResult() {
-    this.result = [];
+    this._result = [];
     for (let i = 1; i < this._carCount + 1; i++) {
       this.result.push(new Car(i.toString()));
     }
   }
 
-  public start(resultView?: ResultView) {
-    this.initializeResult();
-    const intervalId = setInterval(() => {
-      this.raceRound.moveCars(this.result);
-      resultView && resultView.renderResult(this.result);
-    }, 1000);
+  private moveCars(): void {
+    for (const car of this._result) {
+      if (Math.floor(Math.random() * 10) >= 4) {
+        car.moveForward();
+      } else {
+        car.stay();
+      }
+    }
+  }
 
-    setTimeout(() => {
-      clearInterval(intervalId);
-      resultView && resultView.renderWinner(this.getWinners());
-    }, this._tryCount * 1000);
+  public start() {
+    this.initializeResult();
+    for (let i = 0; i < this._tryCount; i++) {
+      this.moveCars();
+    }
+  }
+
+  public getWinners() {
+    const maxDistance = Math.max(
+      ...this.result.map(car => car.getCurrentDistance())
+    );
+    return this.result.filter(car => car.getCurrentDistance() === maxDistance);
   }
 }
 

@@ -10,7 +10,7 @@ describe("start function in Car Race Class", () => {
     carRace.tryCount = tryCount;
     carRace.start();
     await new Promise(resolve => setTimeout(resolve, tryCount * 1000));
-    expect(carRace.getResult().length).toEqual(carCount);
+    expect(carRace.result.length).toEqual(carCount);
   });
 
   it("the distance of each Car instances should be less than or equal to tryCount", async () => {
@@ -21,7 +21,7 @@ describe("start function in Car Race Class", () => {
     carRace.tryCount = tryCount;
     carRace.start();
     await new Promise(resolve => setTimeout(resolve, tryCount * 1000));
-    for (const car of carRace.getResult()) {
+    for (const car of carRace.result) {
       expect(car.distance.length <= tryCount).toBeTruthy();
     }
   });

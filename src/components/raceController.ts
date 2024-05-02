@@ -54,8 +54,12 @@ class RaceController {
 
   private handleSubmit(event: Event) {
     event.preventDefault();
-    this.resultView.reset();
-    this.carRace.start(this.resultView);
+    this.carRace.start();
+    this.resultView.render(
+      this.carRace.result,
+      this.carRace.tryCount,
+      this.carRace.getWinners()
+    );
     this.handleInputReset();
   }
 

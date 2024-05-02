@@ -15,25 +15,25 @@ class ResultView {
     }
   }
 
-  private renderEachCar(car: Car) {
-    const result = `${car.name} : ${"@".repeat(car.getCurrentDistance())}`;
+  private renderEachCar(car: Car, index: number) {
+    const result = `${car.name} : ${"@".repeat(car.distance[index])}`;
     const liElement = document.createElement("li");
     liElement.textContent = result;
     return liElement;
   }
 
-  public renderResult(result: Car[]) {
+  private renderResult(result: Car[], index: number) {
+    this.reset();
     const ulElement = document.createElement("ul");
-    for (const car of result) {
-      ulElement.appendChild(this.renderEachCar(car));
+    for (let j = 0; j < result.length; j++) {
+      ulElement.appendChild(this.renderEachCar(result[j], index));
     }
     if (this.sectionElement) {
-      this.sectionElement.innerHTML = "";
       this.sectionElement.appendChild(ulElement);
     }
   }
 
-  public renderWinner(winners: Car[]) {
+  private renderWinner(winners: Car[]) {
     const divElement = document.createElement("div");
     divElement.textContent = `우승자는 ${winners.map(winner => winner.name).join(", ")}입니다.`;
     if (this.sectionElement) {
@@ -41,10 +41,24 @@ class ResultView {
     }
   }
 
-  public reset() {
+  private reset() {
     if (this.sectionElement) {
       this.sectionElement.innerHTML = "";
     }
+  }
+
+  public render(result: Car[], tryCount: number, winners: Car[]) {
+    this.reset();
+    let count = 0;
+    const intervalId = setInterval(() => {
+      this.renderResult(result, count);
+      count++;
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(intervalId);
+      this.renderWinner(winners);
+    }, tryCount * 1000);
   }
 }
 
