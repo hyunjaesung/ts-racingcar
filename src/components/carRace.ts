@@ -1,14 +1,17 @@
 import Car from "./car";
+import RaceRule from "./raceRule";
 
 class CarRace {
   private _carCount: number;
   private _tryCount: number;
   private _result: Car[];
+  private _raceRule: RaceRule;
 
-  constructor() {
+  constructor(raceRule: RaceRule) {
     this._carCount = 0;
     this._tryCount = 0;
     this._result = [];
+    this._raceRule = raceRule;
   }
 
   get carCount(): number {
@@ -40,7 +43,7 @@ class CarRace {
 
   private moveCars(): void {
     for (const car of this._result) {
-      if (Math.floor(Math.random() * 10) >= 4) {
+      if (this._raceRule.rule()) {
         car.moveForward();
       } else {
         car.stay();
