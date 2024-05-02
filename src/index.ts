@@ -5,9 +5,13 @@ import ResultView from "./view/ResultView";
 
 const root = document.querySelector("#app");
 
-if (root) {
+const playCarRace = () => {
   const raceRule = new RaceRule();
   const carRace = new CarRace(raceRule);
   const resultView = new ResultView();
   new RaceController(carRace, resultView);
+};
+
+if (root) {
+  playCarRace();
 }
