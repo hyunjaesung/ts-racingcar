@@ -4,13 +4,13 @@ import RaceRule from "./raceRule";
 class CarRace {
   private _carCount: number;
   private _tryCount: number;
-  private _result: Car[];
+  private _raceResult: Car[];
   private _raceRule: RaceRule;
 
   constructor(raceRule: RaceRule) {
     this._carCount = 0;
     this._tryCount = 0;
-    this._result = [];
+    this._raceResult = [];
     this._raceRule = raceRule;
   }
 
@@ -22,8 +22,8 @@ class CarRace {
     return this._tryCount;
   }
 
-  get result(): Car[] {
-    return this._result;
+  get raceResult(): Car[] {
+    return this._raceResult;
   }
 
   set carCount(carCount: number) {
@@ -35,14 +35,14 @@ class CarRace {
   }
 
   private initializeResult() {
-    this._result = [];
+    this._raceResult = [];
     for (let i = 1; i < this._carCount + 1; i++) {
-      this.result.push(new Car(i.toString()));
+      this._raceResult.push(new Car(i.toString()));
     }
   }
 
   private moveCars(): void {
-    for (const car of this._result) {
+    for (const car of this._raceResult) {
       if (this._raceRule.rule()) {
         car.moveForward();
       } else {
@@ -60,9 +60,11 @@ class CarRace {
 
   public getWinners() {
     const maxDistance = Math.max(
-      ...this.result.map(car => car.getCurrentDistance())
+      ...this._raceResult.map(car => car.getCurrentDistance())
     );
-    return this.result.filter(car => car.getCurrentDistance() === maxDistance);
+    return this._raceResult.filter(
+      car => car.getCurrentDistance() === maxDistance
+    );
   }
 }
 

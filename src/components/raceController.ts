@@ -56,7 +56,7 @@ class RaceController {
     event.preventDefault();
     this.carRace.start();
     this.resultView.render(
-      this.carRace.result,
+      this.carRace.raceResult,
       this.carRace.tryCount,
       this.carRace.getWinners()
     );
