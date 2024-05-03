@@ -50,6 +50,7 @@ class CarRace {
     for (let i = 0; i < this._tryCount; i++) {
       this.moveCars();
     }
+    this._carNames = [];
   }
 
   public getWinners() {
