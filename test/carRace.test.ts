@@ -1,28 +1,78 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import CarRace from "../src/components/carRace";
+import RaceRule from "../src/components/raceRule";
 
-describe("start function in Car Race Class", () => {
-  it("the length of result should be equal to carCount", async () => {
-    const carRace = new CarRace();
-    const carCount = 3;
-    const tryCount = 5;
-    carRace.carCount = carCount;
-    carRace.tryCount = tryCount;
+// given
+let raceRule, carRace, defaultCarCount, defaultTryCount;
+beforeEach(() => {
+  raceRule = new RaceRule();
+  carRace = new CarRace(raceRule);
+  defaultCarCount = 5;
+  defaultTryCount = 10;
+  carRace.carCount = defaultCarCount;
+  carRace.tryCount = defaultTryCount;
+});
+
+describe("start function in CarRace Class", () => {
+  it("the length of raceResult should be equal to carCount after calling start", () => {
+    // when
     carRace.start();
-    await new Promise(resolve => setTimeout(resolve, tryCount * 1000));
-    expect(carRace.result.length).toEqual(carCount);
+
+    // then
+    expect(carRace.raceResult.length).toEqual(defaultCarCount);
   });
 
-  it("the distance of each Car instances should be less than or equal to tryCount", async () => {
-    const carRace = new CarRace();
-    const carCount = 3;
-    const tryCount = 5;
-    carRace.carCount = carCount;
-    carRace.tryCount = tryCount;
+  it("the length of distance of each Car in raceResult should be equal to tryCount after calling start", () => {
+    // when
     carRace.start();
-    await new Promise(resolve => setTimeout(resolve, tryCount * 1000));
-    for (const car of carRace.result) {
-      expect(car.distance.length <= tryCount).toBeTruthy();
+
+    // then
+    for (const car of carRace.raceResult) {
+      expect(car.distance.length).toEqual(defaultTryCount);
+    }
+  });
+
+  it("the distance of each Car in raceResult should be in increasing order", () => {
+    // when
+    carRace.start();
+
+    // then
+    for (const car of carRace.raceResult) {
+      for (let i = 0; i < car.distance.length - 1; i++) {
+        expect(car.distance[i + 1]).toBeGreaterThanOrEqual(car.distance[i]);
+      }
+    }
+  });
+
+  it("each subsequent number in the distances of each Car should be one greater than or equal to the previous number", () => {
+    // when
+    carRace.start();
+
+    // then
+    for (const car of carRace.raceResult) {
+      for (let i = 0; i < car.distance.length - 1; i++) {
+        const diff = car.distance[i + 1] - car.distance[i];
+        expect(diff).toBeGreaterThanOrEqual(0);
+        expect(diff).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+});
+
+describe("getWinners function in CarRace class", () => {
+  it("the cars in winners should have the maximum current distance", () => {
+    // when
+    carRace.start();
+
+    // then
+    const winners = carRace.getWinners();
+    const winnersNames = winners.map(car => car.name);
+    const maxDistance = winners[0].getCurrentDistance();
+
+    for (const car of carRace.raceResult) {
+      if (!winnersNames.includes(car.name)) {
+        expect(maxDistance).toBeGreaterThan(car.getCurrentDistance());
+      }
     }
   });
 });
