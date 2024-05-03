@@ -29,6 +29,7 @@ class CarRace {
 
   public addNewCar(name: string) {
     this._carNames.push(name);
+    this._raceResult = CarsFactory.build(this._carNames);
   }
 
   set tryCount(tryCount: number) {
@@ -46,7 +47,6 @@ class CarRace {
   }
 
   public start() {
-    this._raceResult = CarsFactory.build(this._carNames);
     for (let i = 0; i < this._tryCount; i++) {
       this.moveCars();
     }

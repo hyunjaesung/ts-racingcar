@@ -60,6 +60,7 @@ class RaceController {
       }
       this.carRace.addNewCar(this.carNameInput.value);
       this.carNameInput.value = "";
+      this.resultView.renderResult(this.carRace.raceResult, 0);
     }
   }
 
