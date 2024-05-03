@@ -5,7 +5,7 @@ describe("Car", () => {
   let car: Car;
 
   beforeEach(() => {
-    car = new Car({ id: 0, pos: 0 });
+    car = new Car({ id: 0, pos: 0, name: "개똥" });
   });
 
   it("withStay 가 호출되면 동일한 위치를 가지는 다른 Car 인스턴스를 반환한다", () => {

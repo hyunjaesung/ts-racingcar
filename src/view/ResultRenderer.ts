@@ -2,10 +2,15 @@ import { carLaneTemplate } from "@/view/template/carLane";
 import { Car } from "@/domain/Car";
 import { GameResult } from "@/domain/GameResult";
 
-const END_STRING = "경기가 종료되었습니다";
-
-const renderCarLanes = (cars: Car[], roundCount: number) =>
-  cars.map(car => carLaneTemplate((car.pos / roundCount) * 100)).join(" ");
+const renderCarLanes = (cars: Car[], roundCount?: number) =>
+  cars
+    .map(car =>
+      carLaneTemplate({
+        name: car.name,
+        widthPercent: roundCount ? (car.pos / roundCount) * 100 : 0,
+      })
+    )
+    .join(" ");
 
 export class ResultRenderer {
   private readonly root: HTMLDivElement;
@@ -18,7 +23,8 @@ export class ResultRenderer {
     let index = 0;
     const intervalId = setInterval(() => {
       if (results[index] === undefined) {
-        this.renderFinish();
+        const winnerCars = results[index - 1].leadCars;
+        this.renderFinish(winnerCars.map(car => car.name));
         clearInterval(intervalId);
       } else {
         this.renderResult({
@@ -30,17 +36,17 @@ export class ResultRenderer {
     }, 1000);
   }
 
-  private renderResult({
+  renderResult({
     result,
     roundCount,
   }: {
     result: GameResult;
-    roundCount: number;
+    roundCount?: number;
   }) {
     this.root.innerHTML = renderCarLanes(result.cars, roundCount);
   }
 
-  private renderFinish() {
-    this.root.append(END_STRING);
+  private renderFinish(winnderNames: string[]) {
+    this.root.append(`우승자는 ${winnderNames.join(", ")} 입니다`);
   }
 }
