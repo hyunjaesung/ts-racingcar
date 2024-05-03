@@ -1,3 +1,4 @@
+import CarsFactory from "@/factories/carsFactory";
 import Car from "./car";
 import RaceRule from "./raceRule";
 
@@ -34,13 +35,6 @@ class CarRace {
     this._tryCount = tryCount;
   }
 
-  private initializeResult() {
-    this._raceResult = [];
-    for (let i = 1; i < this._carCount + 1; i++) {
-      this._raceResult.push(new Car(i.toString()));
-    }
-  }
-
   private moveCars(): void {
     for (const car of this._raceResult) {
       if (this._raceRule.rule()) {
@@ -52,7 +46,7 @@ class CarRace {
   }
 
   public start() {
-    this.initializeResult();
+    this._raceResult = CarsFactory.build(this._carCount);
     for (let i = 0; i < this._tryCount; i++) {
       this.moveCars();
     }
