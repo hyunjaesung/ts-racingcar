@@ -3,12 +3,18 @@ class RaceRule {
     return Math.floor(Math.random() * 10);
   }
 
-  public moveForwardWhenGreaterThan4(number: number): boolean {
-    return number >= 4;
-  }
+  private moveForwardWhenGreaterThanThreshold = (
+    threshold: number,
+    number: number
+  ) => {
+    return number >= threshold;
+  };
 
   public rule(): boolean {
-    return this.moveForwardWhenGreaterThan4(this.getRandomNumberBetween0And9());
+    return this.moveForwardWhenGreaterThanThreshold(
+      4,
+      this.getRandomNumberBetween0And9()
+    );
   }
 }
 
