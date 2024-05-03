@@ -1,17 +1,12 @@
 import Car from "@/components/car";
-import DOM_SELECTOR_ID from "@/constants/domSelector";
 
 class ResultView {
   private sectionElement: HTMLElement | null;
 
-  constructor() {
-    this.sectionElement = document.getElementById(
-      DOM_SELECTOR_ID.RACE_RESULT_SECTION
-    );
+  constructor(sectionElement: HTMLElement | null) {
+    this.sectionElement = sectionElement;
     if (!this.sectionElement) {
-      throw new Error(
-        `Element with id ${DOM_SELECTOR_ID.RACE_RESULT_SECTION} not found`
-      );
+      throw new Error(`Element with id RACE_RESULT_SECTION not found`);
     }
   }
 
