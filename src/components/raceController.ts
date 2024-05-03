@@ -55,12 +55,18 @@ class RaceController {
 
   private handleAddCarButton() {
     if (this.carNameInput) {
-      if (!this.carNameInput.value) {
-        alert("이름을 입력해주세요.");
+      try {
+        this.carRace.addNewCar(this.carNameInput.value);
+        this.resultView.renderResult(this.carRace.raceResult, 0);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+        } else {
+          console.error(error);
+        }
+      } finally {
+        this.carNameInput.value = "";
       }
-      this.carRace.addNewCar(this.carNameInput.value);
-      this.carNameInput.value = "";
-      this.resultView.renderResult(this.carRace.raceResult, 0);
     }
   }
 

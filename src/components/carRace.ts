@@ -28,6 +28,12 @@ class CarRace {
   }
 
   public addNewCar(name: string) {
+    if (this._carNames.includes(name)) {
+      throw new Error("이미 같은 이름을 가진 자동차가 존재합니다!");
+    }
+    if (name === "") {
+      throw new Error("빈 값은 이름이 될 수 없습니다.");
+    }
     this._carNames.push(name);
     this._raceResult = CarsFactory.build(this._carNames);
   }
