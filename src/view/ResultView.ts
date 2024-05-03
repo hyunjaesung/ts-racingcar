@@ -17,7 +17,7 @@ class ResultView {
     return liElement;
   }
 
-  private renderResult(result: Car[], index: number) {
+  public renderResult(result: Car[], index: number) {
     this.reset();
     const ulElement = document.createElement("ul");
     for (let j = 0; j < result.length; j++) {
@@ -43,7 +43,6 @@ class ResultView {
   }
 
   public render(result: Car[], tryCount: number, winners: Car[]) {
-    this.reset();
     let count = 0;
     const intervalId = setInterval(() => {
       this.renderResult(result, count);

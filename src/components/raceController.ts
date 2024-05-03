@@ -6,20 +6,25 @@ class RaceController {
   private carRace: CarRace;
   private resultView: ResultView;
 
-  private carCountInput: HTMLInputElement | null;
+  private carNameInput: HTMLInputElement | null;
   private tryCountInput: HTMLInputElement | null;
+  private addCarButton: HTMLButtonElement | null;
   private carRaceForm: HTMLFormElement | null;
 
   constructor(carRace: CarRace, resultView: ResultView) {
-    const { CAR_COUNT_INPUT, TRY_COUNT_INPUT, CAR_RACE_FORM } = DOM_SELECTOR_ID;
+    const { CAR_NAME_INPUT, TRY_COUNT_INPUT, ADD_CAR_BUTTON, CAR_RACE_FORM } =
+      DOM_SELECTOR_ID;
     this.carRace = carRace;
     this.resultView = resultView;
-    this.carCountInput = document.getElementById(
-      CAR_COUNT_INPUT
+    this.carNameInput = document.getElementById(
+      CAR_NAME_INPUT
     ) as HTMLInputElement;
     this.tryCountInput = document.getElementById(
       TRY_COUNT_INPUT
     ) as HTMLInputElement;
+    this.addCarButton = document.getElementById(
+      ADD_CAR_BUTTON
+    ) as HTMLButtonElement;
     this.carRaceForm = document.getElementById(
       CAR_RACE_FORM
     ) as HTMLFormElement;
@@ -27,16 +32,16 @@ class RaceController {
   }
 
   private addEventListners() {
-    if (this.carCountInput) {
-      this.carCountInput.addEventListener(
-        "input",
-        this.handleCarCountInput.bind(this)
-      );
-    }
     if (this.tryCountInput) {
       this.tryCountInput.addEventListener(
         "input",
         this.handleTryCountInput.bind(this)
+      );
+    }
+    if (this.addCarButton) {
+      this.addCarButton.addEventListener(
+        "click",
+        this.handleAddCarButton.bind(this)
       );
     }
     if (this.carRaceForm) {
@@ -44,12 +49,25 @@ class RaceController {
     }
   }
 
-  private handleCarCountInput(event: Event) {
-    this.carRace.carCount = parseInt((event.target as HTMLInputElement).value);
-  }
-
   private handleTryCountInput(event: Event) {
     this.carRace.tryCount = parseInt((event.target as HTMLInputElement).value);
+  }
+
+  private handleAddCarButton() {
+    if (this.carNameInput) {
+      try {
+        this.carRace.addNewCar(this.carNameInput.value);
+        this.resultView.renderResult(this.carRace.raceResult, 0);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+        } else {
+          console.error(error);
+        }
+      } finally {
+        this.carNameInput.value = "";
+      }
+    }
   }
 
   private handleSubmit(event: Event) {
@@ -64,9 +82,6 @@ class RaceController {
   }
 
   private handleInputReset() {
-    if (this.carCountInput) {
-      this.carCountInput.value = "";
-    }
     if (this.tryCountInput) {
       this.tryCountInput.value = "";
     }

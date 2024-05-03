@@ -3,26 +3,59 @@ import CarRace from "../src/components/carRace";
 import RaceRule from "../src/components/raceRule";
 
 // given
-let raceRule, carRace, defaultCarCount, defaultTryCount;
+let raceRule, carRace, defaultCarNames, defaultTryCount;
 beforeEach(() => {
   raceRule = new RaceRule();
   carRace = new CarRace(raceRule);
-  defaultCarCount = 5;
+  defaultCarNames = ["car1", "car2", "car3"];
   defaultTryCount = 10;
-  carRace.carCount = defaultCarCount;
   carRace.tryCount = defaultTryCount;
+});
+
+describe("addNewCar function in CarRace class", () => {
+  it("the number of calling addNewCar is equal to the length of carName of carRace", () => {
+    // when
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
+    // then
+    expect(carRace.carNames.length).toEqual(defaultCarNames.length);
+  });
+
+  it("calling addNewCar add new car with name given", () => {
+    // when
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
+    // then
+    for (let i = 0; i < defaultCarNames.length; i++) {
+      expect(carRace.carNames[i]).toEqual(defaultCarNames[i]);
+    }
+  });
 });
 
 describe("start function in CarRace Class", () => {
   it("the length of raceResult should be equal to carCount after calling start", () => {
+    // given
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
     // when
     carRace.start();
 
     // then
-    expect(carRace.raceResult.length).toEqual(defaultCarCount);
+    expect(carRace.raceResult.length).toEqual(defaultCarNames.length);
   });
 
   it("the length of distance of each Car in raceResult should be equal to tryCount after calling start", () => {
+    // given
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
     // when
     carRace.start();
 
@@ -33,6 +66,11 @@ describe("start function in CarRace Class", () => {
   });
 
   it("the distance of each Car in raceResult should be in increasing order", () => {
+    // given
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
     // when
     carRace.start();
 
@@ -45,6 +83,11 @@ describe("start function in CarRace Class", () => {
   });
 
   it("each subsequent number in the distances of each Car should be one greater than or equal to the previous number", () => {
+    // given
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
     // when
     carRace.start();
 
@@ -61,6 +104,11 @@ describe("start function in CarRace Class", () => {
 
 describe("getWinners function in CarRace class", () => {
   it("the cars in winners should have the maximum current distance", () => {
+    // given
+    for (const name of defaultCarNames) {
+      carRace.addNewCar(name);
+    }
+
     // when
     carRace.start();
 

@@ -1,10 +1,8 @@
 import Car from "@/components/car";
 
 class CarsFactory {
-  static build(count: number) {
-    return Array(count)
-      .fill(null)
-      .map((_, index) => new Car((index + 1).toString()));
+  static build(carNames: string[]) {
+    return carNames.map(name => new Car(name));
   }
 }
 

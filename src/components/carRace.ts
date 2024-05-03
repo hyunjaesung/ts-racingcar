@@ -3,20 +3,20 @@ import Car from "./car";
 import RaceRule from "./raceRule";
 
 class CarRace {
-  private _carCount: number;
+  private _carNames: string[];
   private _tryCount: number;
   private _raceResult: Car[];
   private _raceRule: RaceRule;
 
   constructor(raceRule: RaceRule) {
-    this._carCount = 0;
+    this._carNames = [];
     this._tryCount = 0;
     this._raceResult = [];
     this._raceRule = raceRule;
   }
 
-  get carCount(): number {
-    return this._carCount;
+  get carNames(): string[] {
+    return this._carNames;
   }
 
   get tryCount(): number {
@@ -27,8 +27,15 @@ class CarRace {
     return this._raceResult;
   }
 
-  set carCount(carCount: number) {
-    this._carCount = carCount;
+  public addNewCar(name: string) {
+    if (this._carNames.includes(name)) {
+      throw new Error("이미 같은 이름을 가진 자동차가 존재합니다!");
+    }
+    if (name === "") {
+      throw new Error("빈 값은 이름이 될 수 없습니다.");
+    }
+    this._carNames.push(name);
+    this._raceResult = CarsFactory.build(this._carNames);
   }
 
   set tryCount(tryCount: number) {
@@ -46,10 +53,10 @@ class CarRace {
   }
 
   public start() {
-    this._raceResult = CarsFactory.build(this._carCount);
     for (let i = 0; i < this._tryCount; i++) {
       this.moveCars();
     }
+    this._carNames = [];
   }
 
   public getWinners() {
